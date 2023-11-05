@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# This script parses Apache log files in list format.
+#   Groups visitors by IP and HTTP status code.
+#   Displays the number of occurrences, IP, and HTTP status
+#+  code of each log,  in sorted order.
+    141 130.0.236.153 200
+    140 62.210.250.66 200
+    117 103.243.26.232 404
+    67 195.154.172.143 200
+    60 78.154.190.29 200
+    45 195.154.172.59 200
+    41 62.210.248.185 200
+    41 167.114.156.198 200
+    36 2.1.201.36 304
+    36 195.154.172.53 200
