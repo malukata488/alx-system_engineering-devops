@@ -1,4 +1,13 @@
-#!/usr/bin/env bash
-# This script kills the process 7-highlander
+#!/bin/bash
 
-kill -9 "$(pgrep -f highlander)"
+# Use pgrep to find PIDs of processes matching the name "highlander"
+pids="$(pgrep -f highlander)"
+
+# Check if any PIDs were found
+if [ -n "$pids" ]; then
+  # Use kill to terminate the processes
+  kill -9 $pids
+else
+  echo "No matching processes found to kill."
+fi
+
