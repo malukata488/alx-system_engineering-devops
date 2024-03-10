@@ -1,18 +1,25 @@
 #!/usr/bin/env bash
-# write a Bash script that will display information about the subdomains
+# Run: ./1-world_wide_web <domain> <subdomain>
 
-dns_config () {
-    script=$(dig "$2"."$1" | grep -A1 'ANSWER SECTION:' | tr '\t' '\n' | tail -2 | tr '\n' ' ')
-    echo "$2 $script" | awk '{print "The subdomain " $1 " is a " $2 " record and points to " $3}'
+domain_information() {
+    local subdomain="${1}"
+    local domain="${2}"
+    local record_type
+    local destination
+
+    record_type="$(dig "${subdomain}.${domain}" | grep -A1 'ANSWER SECTION:' | awk '{print $4}' | tr -d '\n')"
+    destination="$(dig "${subdomain}.${domain}" | grep -A1 'ANSWER SECTION:' | awk '{print $5}' | tr -d '\n')"
+    echo "The subdomain ${subdomain} is a ${record_type} record and points to ${destination}"
 }
 
-if [ "$#" == 1 ]
-then
-  dns_config "$1" "www"
-  dns_config "$1" "lb-01"
-  dns_config "$1" "web-01"
-  dns_config "$1" "web-02"
-elif [ "$#" == 2 ]
-then
-  dns_config "$1" "$2"
+domain="${1}"
+
+if [[ $# -eq 1 ]]; then
+    domain_information "www" "${domain}"
+    domain_information "lb-01" "${domain}"
+    domain_information "web-01" "${domain}"
+    domain_information "web-02" "${domain}"
+elif [[ $# -eq 2 ]]; then
+    subdomain="${2}"
+    domain_information "${subdomain}" "${domain}"
 fi
